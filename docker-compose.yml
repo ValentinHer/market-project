@@ -1,0 +1,32 @@
+services:
+  db:
+    container_name: project-market
+    image: postgres:17.0
+    environment:
+      POSTGRES_USER: valentin
+      POSTGRES_PASSWORD: valentin1822
+      POSTGRES_DB: market
+    ports:
+      - 5432:5432
+    volumes:
+      - postg-volume:/var/lib/postgresql/data
+    restart: always
+  
+  pgadmin:
+    depends_on:
+      - db
+    image: elestio/pgadmin:REL-8_11
+    environment:
+      PGADMIN_DEFAULT_EMAIL: postgres@email.com
+      PGADMIN_DEFAULT_PASSWORD: 123456
+    ports:
+      - 8080:80
+    volumes:
+      - pgadmin-volume:/var/lib/pgadmin
+    restart: always
+
+volumes:
+  postg-volume:
+    external: false
+  pgadmin-volume:
+    external: false
