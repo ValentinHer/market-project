@@ -25,7 +25,7 @@ public class ProductController {
 	private ProductService productService;
 
 	@GetMapping
-	@Operation(description = "Get all supermarket products")
+	@Operation(description = "Get all products")
 	@ApiResponse(responseCode = "200", description = "OK")
 	public ResponseEntity<List<Product>> getAll() {
 		return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);
@@ -35,9 +35,9 @@ public class ProductController {
 	@Operation(description = "Search a product by id")
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", description = "OK"),
-			@ApiResponse(responseCode = "404", description = "Product Not Found", content = @Content)
+			@ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content)
 	})
-	@Parameter(name = "id", required = true, example = "30")
+	@Parameter(name = "productId", required = true, example = "30")
 	public ResponseEntity<Product> getProduct(@PathVariable("id") Integer productId) {
 		return productService.getProduct(productId)
 							 .map(product -> new ResponseEntity<>(product, HttpStatus.OK))
@@ -45,6 +45,12 @@ public class ProductController {
 	}
 
 	@GetMapping("/category/{categoryId}")
+	@Operation(description = "Search products by category id")
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", description = "OK"),
+			@ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content)
+	})
+	@Parameter(name = "categoryId", required = true, example = "2")
 	public ResponseEntity<List<Product>> getByCategory(@PathVariable("categoryId") Integer categoryId) {
 		return productService.getByCategory(categoryId)
 							 .map(products -> new ResponseEntity<>(products, HttpStatus.OK))
@@ -52,11 +58,19 @@ public class ProductController {
 	}
 
 	@PostMapping
+	@Operation(description = "Save product")
+	@ApiResponse(responseCode = "201", description = "CREATED")
 	public ResponseEntity<Product> save(@RequestBody Product product) {
 		return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/{id}")
+	@Operation(description = "Delete a product by id")
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", description = "OK"),
+			@ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content)
+	})
+	@Parameter(name = "productId", required = true, example = "3")
 	public ResponseEntity delete(@PathVariable("id") Integer productId) {
 		if (productService.delete(productId)) {
 			return new ResponseEntity<>(HttpStatus.OK);
