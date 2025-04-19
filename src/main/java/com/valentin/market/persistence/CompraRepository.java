@@ -31,10 +31,20 @@ public class CompraRepository implements PurchaseRepository {
 	}
 
 	@Override
+	public Optional<Purchase> getById(Integer purchaseId) {
+		return compraCrudRepository.findById(purchaseId).map(compra -> mapper.toPurchase(compra));
+	}
+
+	@Override
 	public Purchase save(Purchase purchase) {
 		Compra compra = mapper.toCompra(purchase);
 		compra.getProductos().forEach(producto -> producto.setCompra(compra));
 
 		return mapper.toPurchase(compraCrudRepository.save(compra));
+	}
+
+	@Override
+	public void delete(Integer purchaseId) {
+		compraCrudRepository.deleteById(purchaseId);
 	}
 }

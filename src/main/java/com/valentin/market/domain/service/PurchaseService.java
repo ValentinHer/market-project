@@ -1,5 +1,6 @@
 package com.valentin.market.domain.service;
 
+import com.valentin.market.domain.Product;
 import com.valentin.market.domain.Purchase;
 import com.valentin.market.persistence.CompraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,19 @@ public class PurchaseService {
 		return compraRepository.getByClient(clientId);
 	}
 
+	public Optional<Purchase> getById(Integer purchaseId) {
+		return compraRepository.getById(purchaseId);
+	}
+
 	public Purchase save(Purchase purchase) {
 		return compraRepository.save(purchase);
+	}
+
+	public Boolean delete(Integer purchaseId) {
+		return getById(purchaseId).map(compra -> {
+									  compraRepository.delete(purchaseId);
+									  return true;
+								  })
+								  .orElse(false);
 	}
 }

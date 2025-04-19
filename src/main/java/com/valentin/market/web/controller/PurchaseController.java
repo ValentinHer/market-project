@@ -8,11 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/purchases")
-public class PurchaseComtroller {
+public class PurchaseController {
 	@Autowired
 	PurchaseService purchaseService;
 
@@ -28,8 +27,23 @@ public class PurchaseComtroller {
 							  .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
+	@GetMapping("/{id}")
+	public ResponseEntity<Purchase> getById(@PathVariable("id") Integer purchaseId) {
+		return purchaseService.getById(purchaseId)
+							  .map(purchase -> new ResponseEntity<>(purchase, HttpStatus.OK))
+							  .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
+
 	@PostMapping
 	public ResponseEntity<Purchase> save(Purchase purchase) {
 		return new ResponseEntity<>(purchaseService.save(purchase), HttpStatus.CREATED);
+	}
+
+	public ResponseEntity delete(Integer purchaseId) {
+		if(purchaseService.delete(purchaseId)){
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 }
