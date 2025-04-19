@@ -35,11 +35,12 @@ public class PurchaseController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Purchase> save(Purchase purchase) {
+	public ResponseEntity<Purchase> save(@RequestBody Purchase purchase) {
 		return new ResponseEntity<>(purchaseService.save(purchase), HttpStatus.CREATED);
 	}
 
-	public ResponseEntity delete(Integer purchaseId) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity delete(@PathVariable("id") Integer purchaseId) {
 		if(purchaseService.delete(purchaseId)){
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
