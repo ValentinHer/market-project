@@ -21,8 +21,15 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.csrf(csrf -> csrf.disable())
+				.cors(Customizer.withDefaults())
 				.authorizeHttpRequests(request -> request.requestMatchers("/products/**")
-														 .permitAll()
+														 .hasAnyRole("ADMIN", "CLIENT")
+														 .requestMatchers("/clients/**")
+														 .hasRole("ADMIN")
+														 .requestMatchers("/categories/**")
+														 .hasAnyRole("ADMIN", "CLIENT")
+														 .requestMatchers("/purchases/**")
+														 .hasAnyRole("ADMIN", "CLIENT")
 														 .anyRequest()
 														 .authenticated())
 				.httpBasic(Customizer.withDefaults());
@@ -31,18 +38,24 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public UserDetailsService userDetailsService(){
+	public UserDetailsService userDetailsService() {
 		UserDetails user = User.builder()
-				.username("admin")
-				.password(passwordEncoder().encode("admin"))
-				.roles("ADMIN")
-				.build();
+							   .username("admin")
+							   .password(passwordEncoder().encode("admin"))
+							   .roles("ADMIN")
+							   .build();
 
-		return new InMemoryUserDetailsManager(user);
+		UserDetails client = User.builder()
+								 .username("client")
+								 .password(passwordEncoder().encode("client"))
+								 .roles("CLIENT")
+								 .build();
+
+		return new InMemoryUserDetailsManager(user, client);
 	}
 
 	@Bean
-	public PasswordEncoder passwordEncoder(){
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 }
