@@ -71,7 +71,7 @@ public class ProductController {
 			@ApiResponse(responseCode = "404", description = "NOT FOUND", content = @Content)
 	})
 	@Parameter(name = "productId", required = true, example = "3")
-	public ResponseEntity delete(@PathVariable("id") Integer productId) {
+	public ResponseEntity<Void> delete(@PathVariable("id") Integer productId) {
 		if (productService.delete(productId)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {

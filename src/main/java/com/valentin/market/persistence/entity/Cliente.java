@@ -11,6 +11,10 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
+
+	@Column(name = "id_rol", nullable = false)
+	private Integer idRol;
+
 	private String nombre;
 	private String apellidos;
 	private Long celular;
@@ -19,8 +23,15 @@ public class Cliente {
 	@Column(name = "correo_electronico")
 	private String correoElectronico;
 
+	@Column(nullable = false, columnDefinition = "TINYINT")
+	private Boolean disabled;
+
 	@OneToMany(mappedBy = "cliente")
 	private List<Compra> compras;
+
+	@OneToOne
+	@JoinColumn(name = "id_rol", referencedColumnName = "id_rol", insertable = false, updatable = false)
+	private Rol rol;
 
 	public String getId() {
 		return id;
@@ -28,6 +39,14 @@ public class Cliente {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public Integer getIdRol() {
+		return idRol;
+	}
+
+	public void setIdRol(Integer idRol) {
+		this.idRol = idRol;
 	}
 
 	public String getNombre() {
@@ -70,11 +89,27 @@ public class Cliente {
 		this.correoElectronico = correoElectronico;
 	}
 
+	public Boolean getDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(Boolean disabled) {
+		this.disabled = disabled;
+	}
+
 	public List<Compra> getCompras() {
 		return compras;
 	}
 
 	public void setCompras(List<Compra> compras) {
 		this.compras = compras;
+	}
+
+	public Rol getRol() {
+		return rol;
+	}
+
+	public void setRol(Rol rol) {
+		this.rol = rol;
 	}
 }

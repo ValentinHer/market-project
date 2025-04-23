@@ -9,16 +9,18 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { ClientMapper.class })
 public interface ClientMapper {
 
 	@Mappings({
 			@Mapping(source = "id", target = "clientId"),
+			@Mapping(source = "idRol", target = "roleId"),
 			@Mapping(source = "nombre", target = "name"),
 			@Mapping(source = "apellidos", target = "lastname"),
 			@Mapping(source = "celular", target = "numberPhone"),
 			@Mapping(source = "direccion", target = "address"),
 			@Mapping(source = "correoElectronico", target = "email"),
+			@Mapping(source = "rol", target = "role")
 	})
 	Client toClient(Cliente cliente);
 	List<Client> toClients(List<Cliente> clientes);
