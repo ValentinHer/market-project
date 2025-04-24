@@ -14,7 +14,7 @@ public interface RoleMapper {
 
 	@Mappings({
 			@Mapping(source = "id", target = "roleId"),
-			@Mapping(source = "name", target = "name")
+			@Mapping(source = "nombre", target = "name")
 	})
 	Role toRole(Rol rol);
 	List<Role> toRoles(List<Rol> rols);

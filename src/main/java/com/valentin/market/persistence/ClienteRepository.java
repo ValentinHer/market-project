@@ -31,6 +31,11 @@ public class ClienteRepository implements ClientRepository {
 	}
 
 	@Override
+	public Optional<Client> getByEmail(String email) {
+		return clienteCrudRepository.findByCorreoElectronico(email).map(cliente -> mapper.toClient(cliente));
+	}
+
+	@Override
 	public Client save(Client client) {
 		Cliente cliente = mapper.toCliente(client);
 

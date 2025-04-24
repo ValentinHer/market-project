@@ -3,6 +3,7 @@ package com.valentin.market.domain.service;
 import com.valentin.market.domain.Client;
 import com.valentin.market.domain.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +11,11 @@ import java.util.Optional;
 
 @Service
 public class ClientService {
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	ClientRepository clientRepository;
+	private ClientRepository clientRepository;
 
 	public List<Client> getAll() {
 		return clientRepository.getAll();
@@ -23,6 +26,9 @@ public class ClientService {
 	}
 
 	public Client save(Client client) {
+		String passwordEncoded = passwordEncoder.encode(client.getPassword());
+		client.setPassword(passwordEncoded);
+
 		return clientRepository.save(client);
 	}
 

@@ -23,14 +23,16 @@ public class Cliente {
 	@Column(name = "correo_electronico")
 	private String correoElectronico;
 
-	@Column(nullable = false, columnDefinition = "TINYINT")
+	@Column(nullable = false, columnDefinition = "BOOLEAN")
 	private Boolean disabled;
+
+	private String contrasenia;
 
 	@OneToMany(mappedBy = "cliente")
 	private List<Compra> compras;
 
 	@OneToOne
-	@JoinColumn(name = "id_rol", referencedColumnName = "id_rol", insertable = false, updatable = false)
+	@JoinColumn(name = "id_rol", referencedColumnName = "id", insertable = false, updatable = false)
 	private Rol rol;
 
 	public String getId() {
@@ -95,6 +97,14 @@ public class Cliente {
 
 	public void setDisabled(Boolean disabled) {
 		this.disabled = disabled;
+	}
+
+	public String getContrasenia() {
+		return contrasenia;
+	}
+
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
 	}
 
 	public List<Compra> getCompras() {

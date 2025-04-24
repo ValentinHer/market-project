@@ -21,7 +21,7 @@ public class ClientController {
 	@Autowired
 	ClientService clientService;
 
-	@GetMapping
+	@GetMapping("/all")
 	@Operation(description = "Get all clients")
 	@ApiResponse(responseCode = "200", description = "OK")
 	public ResponseEntity<List<Client>> getAll() {

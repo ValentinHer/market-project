@@ -9,7 +9,7 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = { ClientMapper.class })
+@Mapper(componentModel = "spring", uses = { RoleMapper.class })
 public interface ClientMapper {
 
 	@Mappings({
@@ -20,6 +20,8 @@ public interface ClientMapper {
 			@Mapping(source = "celular", target = "numberPhone"),
 			@Mapping(source = "direccion", target = "address"),
 			@Mapping(source = "correoElectronico", target = "email"),
+			@Mapping(source = "contrasenia", target = "password"),
+			@Mapping(source = "disabled", target = "disabled"),
 			@Mapping(source = "rol", target = "role")
 	})
 	Client toClient(Cliente cliente);
